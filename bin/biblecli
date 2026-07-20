@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Prefer the project venv so pysword is available without a global install.
+set -euo pipefail
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+if [[ -x "$ROOT/.venv/bin/python" ]]; then
+  exec "$ROOT/.venv/bin/python" -m biblecli "$@"
+fi
+exec python3 -m biblecli "$@"
