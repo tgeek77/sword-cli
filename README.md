@@ -2,9 +2,11 @@
 
 Command-line Bible reader for [SWORD](https://wiki.crosswire.org/Main_Page) modules via [pysword](https://pypi.org/project/pysword/).
 
+Downloads use HTTPS catalog + ZIP packages (JSword-style), so no C++ SWORD library is required on Linux or macOS.
+
 ## Install
 
-Requires Python 3.9+ and Bible modules under `~/.sword` (the usual CrossWire layout).
+Requires Python 3.9+.
 
 ```bash
 python3 -m venv .venv
@@ -15,16 +17,22 @@ pip install -e .
 ## Usage
 
 ```bash
+# Installed modules
 biblecli --list
 biblecli -m ASV --list-books
-biblecli -m KJVD --list-books
 biblecli -m ASV -b John -v 3:16
 biblecli -m ASV -b John -v 3:16-18
 biblecli -m ASV -b John -v 3
-biblecli -m KJVD -b Wisdom -v 1:1
-biblecli -m KJVD -b 1Macc -v 1:1
-```
 
+# Download (pure Python, into ~/.sword)
+biblecli --sources
+biblecli --refresh
+biblecli --list-remote -s CrossWire
+biblecli --list-remote -s CrossWire --lang es
+biblecli --list-remote --lang all
+biblecli --download KJV
+biblecli --download engKJV1769eb -s eBible.org
+```
 
 From a source checkout (after activating a venv that has `pysword`):
 
@@ -38,9 +46,15 @@ python -m biblecli -m ASV -b John -v 3:16
 | `-m` / `--module` | Module id (e.g. `ASV`) or unique abbreviation |
 | `-b` / `--book` | Book name or abbreviation from `--list-books` (case-insensitive) |
 | `-v` / `--verse` | `N` (chapter), `N:M`, or `N:M-P` (same-chapter range) |
+| `-s` / `--source` | Remote source for refresh / list-remote / download |
+| `--lang` | Language for `--list-remote` (default: `en`; use `all` for every language) |
 | `--list` | List installed modules |
 | `--list-books` | List books for `-m` (needed for Apocrypha naming) |
+| `--sources` | List built-in download sources |
+| `--refresh` | Refresh remote catalog cache under `~/.sword/biblecli/repos/` |
+| `--list-remote` | List remote Bible modules (from cache; refreshes if missing) |
+| `--download` | Download and install a module ZIP into `~/.sword` |
 
 ## Modules
 
-Install modules with a SWORD front-end (e.g. BibleTime) or CrossWire tools so that `~/.sword/mods.d/` and `~/.sword/modules/` are populated.
+Modules install to `~/.sword/mods.d/` and `~/.sword/modules/`. Built-in sources: **CrossWire** and **eBible.org**.
