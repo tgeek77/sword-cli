@@ -55,6 +55,27 @@ python -m biblecli -m ASV -b John -v 3:16
 | `--list-remote` | List remote Bible modules (from cache; refreshes if missing) |
 | `--download` | Download and install a module ZIP into `~/.sword` |
 
+## Share one file (zipapp)
+
+Build a single executable that bundles `biblecli` + `pysword` (needs Python 3.9+ on the machine, no venv):
+
+```bash
+make zipapp
+# creates dist/biblecli
+```
+
+Give someone `dist/biblecli`:
+
+```bash
+chmod +x biblecli
+./biblecli --help
+./biblecli --refresh
+./biblecli --download KJV
+./biblecli -m KJV -b John -v 3:16
+```
+
+On Windows, run `python biblecli` (or rename to `biblecli.pyz`). Packaging logic lives only in [`scripts/build_zipapp.sh`](scripts/build_zipapp.sh); use `make clean-zipapp` to remove staging output.
+
 ## Modules
 
 Modules install to `~/.sword/mods.d/` and `~/.sword/modules/`. Built-in sources: **CrossWire** and **eBible.org**.
