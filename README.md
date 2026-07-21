@@ -9,9 +9,8 @@ Downloads use HTTPS catalog + ZIP packages (JSword-style), so no C++ SWORD libra
 Requires Python 3.9+.
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -e .
+cd dist
+sudo cp biblecli /usr/local/bin/
 ```
 
 ## Usage
@@ -33,14 +32,6 @@ biblecli --list-remote --lang all
 biblecli --download KJV
 biblecli --download engKJV1769eb -s eBible.org
 ```
-
-From a source checkout (after activating a venv that has `pysword`):
-
-```bash
-python -m biblecli -m ASV -b John -v 3:16
-./bin/biblecli -m ASV -b John -v 3:16
-```
-
 | Flag | Meaning |
 |------|---------|
 | `-m` / `--module` | Module id (e.g. `ASV`) or unique abbreviation |
@@ -54,27 +45,6 @@ python -m biblecli -m ASV -b John -v 3:16
 | `--refresh` | Refresh remote catalog cache under `~/.sword/biblecli/repos/` |
 | `--list-remote` | List remote Bible modules (from cache; refreshes if missing) |
 | `--download` | Download and install a module ZIP into `~/.sword` |
-
-## Share one file (zipapp)
-
-Build a single executable that bundles `biblecli` + `pysword` (needs Python 3.9+ on the machine, no venv):
-
-```bash
-make zipapp
-# creates dist/biblecli
-```
-
-Give someone `dist/biblecli`:
-
-```bash
-chmod +x biblecli
-./biblecli --help
-./biblecli --refresh
-./biblecli --download KJV
-./biblecli -m KJV -b John -v 3:16
-```
-
-On Windows, run `python biblecli` (or rename to `biblecli.pyz`). Packaging logic lives only in [`scripts/build_zipapp.sh`](scripts/build_zipapp.sh); use `make clean-zipapp` to remove staging output.
 
 ## Modules
 
