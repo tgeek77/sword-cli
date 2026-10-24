@@ -13,7 +13,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from biblecli import __version__
-from biblecli.sword import DEFAULT_SWORD_PATH
+from biblecli.paths import DEFAULT_SWORD_PATH
 
 USER_AGENT = f"biblecli/{__version__}"
 CACHE_ROOT = DEFAULT_SWORD_PATH / "biblecli" / "repos"

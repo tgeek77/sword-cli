@@ -4,3 +4,4 @@ __pycache__/
 *.egg-info/
 build/
 .zipapp_stage/
+.pytest_cache/

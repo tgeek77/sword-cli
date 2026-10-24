@@ -1,4 +1,4 @@
-"""Parse chapter:verse reference strings."""
+"""Parse chapter:verse and combined Book chapter:verse references."""
 
 from __future__ import annotations
 
@@ -34,6 +34,18 @@ class VerseRef:
             return None
         end = self.verse_end if self.verse_end is not None else self.verse_start
         return list(range(self.verse_start, end + 1))
+
+    @property
+    def whole_chapter(self) -> bool:
+        return self.verse_start is None
+
+
+@dataclass(frozen=True)
+class Passage:
+    """A book name plus a chapter/verse reference."""
+
+    book: str
+    ref: VerseRef
 
 
 def parse_verse_ref(value: str) -> VerseRef:
@@ -72,3 +84,42 @@ def parse_verse_ref(value: str) -> VerseRef:
         )
 
     return VerseRef(chapter=chapter, verse_start=verse_start, verse_end=verse_end)
+
+
+def parse_passage(value: str) -> Passage:
+    """Parse ``Book chapter:verse``, e.g. ``John 3:16`` or ``1 John 3:16-18``.
+
+    The last whitespace-separated token is the verse form (``N``, ``N:M``,
+    or ``N:M-P``). Everything before it is the book name.
+
+    Raises:
+        ValueError: If the string is not a supported passage form.
+    """
+    text = " ".join(value.split())
+    if not text:
+        raise ValueError(
+            "invalid passage reference; expected Book N, Book N:M, or Book N:M-P"
+        )
+
+    parts = text.split(" ")
+    if len(parts) < 2:
+        raise ValueError(
+            f"invalid passage reference {value!r}; "
+            "expected Book N, Book N:M, or Book N:M-P (e.g. John 3:16)"
+        )
+
+    try:
+        ref = parse_verse_ref(parts[-1])
+    except ValueError as exc:
+        raise ValueError(
+            f"invalid passage reference {value!r}; "
+            "expected Book N, Book N:M, or Book N:M-P (e.g. John 3:16)"
+        ) from exc
+
+    book = " ".join(parts[:-1]).strip()
+    if not book:
+        raise ValueError(
+            f"invalid passage reference {value!r}; "
+            "expected Book N, Book N:M, or Book N:M-P (e.g. John 3:16)"
+        )
+    return Passage(book=book, ref=ref)
