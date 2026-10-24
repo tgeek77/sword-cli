@@ -6,11 +6,11 @@ Downloads use HTTPS catalog + ZIP packages (JSword-style), so no C++ SWORD libra
 
 ## Install
 
-Requires Python 3.9+.
+Requires Python 3.9+. Build the standalone zipapp, then copy that file (not `bin/biblecli`, which only works inside this checkout):
 
 ```bash
-cd dist
-sudo cp biblecli /usr/local/bin/
+make zipapp
+cp dist/biblecli ~/Applications/    # or: sudo cp dist/biblecli /usr/local/bin/
 ```
 
 ## Usage
@@ -83,7 +83,7 @@ Modules install to `~/.sword/mods.d/` and `~/.sword/modules/`. Built-in sources:
 
 ## Changelog
 
-### Unreleased
+### 0.2.0
 
 - Numbered verse output (chapter header + per-verse numbers); `--plain` for unlabeled pipelines
 - Positional references: `biblecli John 3:16`, `1 John 3:16-18`, `John 3`
@@ -91,6 +91,7 @@ Modules install to `~/.sword/mods.d/` and `~/.sword/modules/`. Built-in sources:
 - Full-text `--search` with `-b`, `--max`, and `--case-sensitive`
 - Interactive curses chapter reader (`-i`, or no args on a tty)
 - TTY pager for whole-chapter reads (`$PAGER` or `less`)
+- Checkout launcher (`bin/biblecli`) runs from any cwd; install the zipapp from `dist/biblecli`
 
 ### 0.1.0
 
@@ -101,6 +102,7 @@ Modules install to `~/.sword/mods.d/` and `~/.sword/modules/`. Built-in sources:
 
 ## Todo
 
+- Non-English version support (localized book names, RTL and non-Latin text in lookup/search/TUI)
 - More SWORD sources (CrossWire Beta/Attic, IBT) and user-defined catalog URLs
 - Cross-chapter / cross-book ranges (`John 3:16-4:2`)
 - Parallel translations in one invocation
