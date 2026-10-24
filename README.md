@@ -102,11 +102,8 @@ Modules install to `~/.sword/mods.d/` and `~/.sword/modules/`. Built-in sources:
 
 ## Todo
 
-- Non-English version support (localized book names, RTL and non-Latin text in lookup/search/TUI)
 - More SWORD sources (CrossWire Beta/Attic, IBT) and user-defined catalog URLs
-- Cross-chapter / cross-book ranges (`John 3:16-4:2`)
 - Parallel translations in one invocation
 - `--json` output for lookup and search
-- Module uninstall, update, and catalog freshness
-- Windows SWORD path (`%APPDATA%\Sword`)
+- Module uninstall and update
 - Commentaries and other non-Bible module types (needs more than pysword)
